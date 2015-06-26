@@ -1,0 +1,28 @@
+void multiplicaPolinomio(No *l1,No *l2){
+
+    No* l3,*p1,*p2;
+    l3=criaLista();
+
+    p1=l1;
+    p2=l2;
+
+    while(p1!=NULL){
+
+        while(p2!=NULL){
+
+            if(p1->exp!=0 && p2->exp==0)
+                l3 = insereOrdenado(l3,p1->coef*p2->coef,p1->exp);
+
+            else if(p1->exp==0 && p2->exp!=0)
+                l3 = insereOrdenado(l3,p1->coef*p2->coef,p2->exp);
+
+            else
+                l3 = insereOrdenado(l3,p1->coef*p2->coef,p1->exp*p2->exp);
+
+            p2=p2->proximo;
+        }
+        p2=l2;
+        p1=p1->proximo;
+    }
+    imprimeLista(l3);
+}
