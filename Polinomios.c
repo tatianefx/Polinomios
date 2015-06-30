@@ -186,5 +186,46 @@ void multiplicaPolinomio(No *l1,No *l2)
         p1=p1->proximo;
     }
     imprimeLista(l3);
-    /**Falta simplificar e gravar no arquivo**/
+    
+    l3=simplificaPolinomio(l3);
+    /**Gravar no arquivo**/
+}
+
+No* simplificaPolinomio(No *l){
+
+    No *atual,*post;
+
+    atual=l;
+    post=l->proximo;
+
+    while(post!=NULL){
+
+        if(atual->exp==post->exp){
+            post->coef+=atual->coef;
+            l=removeNo(l,atual);
+        }
+        atual=post;
+        post=post->proximo;
+    }
+   return l;
+}
+
+void resultadoPolinomio(No *l){
+
+    float x,res=0;
+    No *p;
+
+    scanf("%f",&x);
+    p=l;
+
+    while(p!=NULL){
+
+        res+=p->coef*pow(x,p->exp);
+        p=p->proximo;
+    }
+
+    printf("Resultado: %f\n",res);
+
+    //TODO
+    //ESCREVER RESULTADO NO ARQUIVO!
 }
