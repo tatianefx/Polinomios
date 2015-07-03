@@ -12,6 +12,17 @@ struct no
 };
 typedef struct no No;
 
+struct noLOG{
+    char* info;
+    struct noLOG *proximo;
+};typedef struct noLOG NoLOG;
+/** Toda vez que fizer uma operacao nova, inserir o string do usuario ou resultado da operação (ex: Resultado=3x^2+2x) na lista LOG, no fim, quando usario requsitar o arquivo log, tudo da lista eh escrito e printado do arquivo. **/
+
+NoLOG* criaLista(); /**Inicializar no main **/
+NoLOG* InsereInicioLOG(NoLOG* l, char* info); /** Funcao nova **/
+FILE* escreveLOG(FILE *log, NoLOG *l); /** Funcao nova **/
+void imprimeLOG(FILE *log); /** Funcao nova **/
+
 No* criaLista();
 No* insereInicio (No* l, float coef, int exp);
 No* insereFim (No* l, float coef, int exp);
