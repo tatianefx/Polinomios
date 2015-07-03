@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="OperacoesBasicas.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="Polinomios.c">
 			<Option compilerVar="CC" />
 		</Unit>

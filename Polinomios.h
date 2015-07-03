@@ -24,3 +24,5 @@ void apagarParteString(char* str, int tam);
 void copiaParteNumerica(char* str1, char* str2);
 No* subtrairPolinomios(No* polinomio1, No* polinomio2);
 void multiplicaPolinomio(No *l1,No *l2);
+char* transformaPolinomio(No* polinomio);
+No* dividirPolinomios(No* polinomio1, No* polinomio2);

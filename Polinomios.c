@@ -188,3 +188,32 @@ void multiplicaPolinomio(No *l1,No *l2)
     imprimeLista(l3);
     /**Falta simplificar e gravar no arquivo**/
 }
+
+char* transformaPolinomio(No* polinomio)
+{
+    No* p = polinomio;
+    char strPolinomio[MAX] = "\0";
+    int i = 0;
+
+    if(p == NULL)
+    {
+        printf("Polinomio vazio!");
+        return strPolinomio;
+    }
+
+    while(p != NULL)
+    {
+        if(p->coef > 0)
+        {
+            if(p->exp == 0) strcat(strPolinomio,)
+        }
+
+    }
+
+    return strPolinomio;
+}
+
+No* dividirPolinomios(No* polinomio1, No* polinomio2)
+{
+
+}
