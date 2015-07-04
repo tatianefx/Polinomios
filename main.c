@@ -1,11 +1,11 @@
 #include "Polinomios.h"
-
 int main(void)
 {
     char stringPolinomio[MAX];
     FILE *arquivo, *log; /* log = registro das entradas do usuario */
     int n, aux = 1;
     No* lista = criaLista();
+
 
     printf("\n Digite 1 para ler o polinomio de um arquivo e 2 para ler o polinomio do teclado: \n");
     scanf("%d", &n);
@@ -98,6 +98,7 @@ int main(void)
         printf("\nProxima operacao: ");
         scanf("%d", &n);
     }
+
 
     fclose(arquivo);
 

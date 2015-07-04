@@ -158,7 +158,7 @@ No* subtrairPolinomios(No* polinomio1, No* polinomio2)
     return polinomioResultante;
 }
 
-void multiplicaPolinomio(No *l1,No *l2)
+No* multiplicaPolinomio(No *l1,No *l2)
 {
 
     No* l3,*p1,*p2;
@@ -167,53 +167,128 @@ void multiplicaPolinomio(No *l1,No *l2)
     p1=l1;
     p2=l2;
 
-    while(p1!=NULL){
+    while(p1!=NULL)
+    {
 
-        while(p2!=NULL){
+        while(p2!=NULL)
+        {
 
             if(p1->exp!=0 && p2->exp==0)
                 l3 = insereOrdenado(l3,p1->coef*p2->coef,p1->exp);
 
             else if(p1->exp==0 && p2->exp!=0)
                 l3 = insereOrdenado(l3,p1->coef*p2->coef,p2->exp);
-
             else
-                l3 = insereOrdenado(l3,p1->coef*p2->coef,p1->exp*p2->exp);
-
+                l3 = insereOrdenado(l3,p1->coef*p2->coef,p1->exp+p2->exp);
             p2=p2->proximo;
         }
         p2=l2;
         p1=p1->proximo;
     }
-    imprimeLista(l3);
-    /**Falta simplificar e gravar no arquivo**/
+
+    l3=simplificaPolinomio(l3);
+
+    /**Gravar no arquivo**/
+
+    return l3;
 }
 
-char* transformaPolinomio(No* polinomio)
+No* simplificaPolinomio(No *l)
 {
-    No* p = polinomio;
-    char strPolinomio[MAX] = "\0";
-    int i = 0;
 
-    if(p == NULL)
+    No *atual,*post;
+
+    atual=l;
+    post=l->proximo;
+
+    while(post!=NULL)
     {
-        printf("Polinomio vazio!");
-        return strPolinomio;
+
+        if(atual->exp==post->exp)
+        {
+            post->coef+=atual->coef;
+            l=removeNo(l,atual);
+        }
+        atual=post;
+        post=post->proximo;
+    }
+    return l;
+}
+
+void resultadoPolinomio(No *l)
+{
+
+    float x,res=0;
+    No *p;
+
+    scanf("%f",&x);
+    p=l;
+
+    while(p!=NULL)
+    {
+
+        res+=p->coef*pow(x,p->exp);
+        p=p->proximo;
     }
 
-    while(p != NULL)
+    printf("Resultado: %f\n",res);
+
+    /*TODO
+    ESCREVER RESULTADO NO ARQUIVO!*/
+}
+
+ResultadoDivisao* dividirPolinomios(No* polinomio1, No* polinomio2)
+{
+    ResultadoDivisao* resultado;
+    No *pAux, *p;
+
+    float coef;
+    int expo;
+
+    resultado = criaResultadoDivisao();                 /*recebe resultado da divisao */
+    pAux = criaLista();
+
+    if(polinomio1->exp < polinomio2->exp)               /*se o expoente do primeiro no
+                                                        do polinomio1 é menor doque o
+                                                        expoente do primeiro no do polinomio2 */
     {
-        if(p->coef > 0)
+        p = polinomio1;
+
+        while(p != NULL)                                /*insere o polinomio1 no resto
+                                                        do ressultado, e o quociente eh zero*/
         {
-            if(p->exp == 0) strcat(strPolinomio,)
+            resultado->resto = insereOrdenado(resultado->resto, p->coef, p->exp);
+            p = p->proximo;
         }
 
+        return resultado;
     }
 
-    return strPolinomio;
-}
+    p = polinomio1;
 
-No* dividirPolinomios(No* polinomio1, No* polinomio2)
-{
+    do
+    {
+        coef = (p->coef / polinomio2->coef);                        /*divide os coeficientes*/
+        expo = (p->exp - polinomio2->exp);                          /*subtrai os expoentes*/
 
+        resultado->quociente = insereOrdenado(resultado->quociente, coef, expo);     /*quarda o resultado no quociente*/
+
+        pAux = insereInicio(pAux, coef, expo);                      /*guarda o coeficiente e o expoente calculados*/
+
+        pAux = multiplicaPolinomio(pAux, polinomio2);               /*guarda o resuldado da multiplicação dos
+                                                                    valores do ultimo no do quoeficiente pelo polinomio2*/
+
+        resultado->resto = subtrairPolinomios(p, pAux);             /*recebe o resuldado da subtracao de p po pAux*/
+
+        pAux = removeNo(pAux, pAux);                                /*remove o unico no de pAux*/
+
+        p = resultado->resto;                                       /*p aponta pro resto*/
+    }
+    while( (resultado->resto != NULL) && (resultado->resto->exp >= polinomio2->exp) );  /*faz isso enquanto o resto
+                                                                                        for diferente zero e o expoente
+                                                                                        do primeiro no do resto for
+                                                                                        maior/igual ao expoente do
+                                                                                        primeiro no do polinomio2 */
+
+    return resultado;                                               /*retorna o resuldado*/
 }

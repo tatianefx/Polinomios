@@ -1,5 +1,16 @@
 #include "Polinomios.h"
 
+
+ResultadoDivisao* criaResultadoDivisao()
+{
+    ResultadoDivisao* novo = (ResultadoDivisao*) malloc(sizeof(ResultadoDivisao));
+
+    novo->quociente = NULL;
+    novo->resto = NULL;
+
+    return novo;
+}
+
 /*A função cria uma lista vazia*/
 No* criaLista()
 {
@@ -87,13 +98,13 @@ No* insereOrdenado (No* l, float coef, int exp)
 
 /* função remove um no: o usuário entra com um
 or do nó que será removido*/
-No* removeNo (No* l, float coef)
+No* removeNo (No* l, No *endereco)
 {
     No *ant, *atual;
     ant = NULL;
     atual = l;
 
-    while((atual != NULL) && (atual->coef != coef))
+    while((atual != NULL) && (atual!=endereco))
     {
         ant = atual;
         atual = atual->proximo;
