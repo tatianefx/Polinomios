@@ -1,6 +1,5 @@
 #include "Polinomios.h"
 
-
 ResultadoDivisao* criaResultadoDivisao()
 {
     ResultadoDivisao* novo = (ResultadoDivisao*) malloc(sizeof(ResultadoDivisao));
@@ -15,6 +14,21 @@ ResultadoDivisao* criaResultadoDivisao()
 No* criaLista()
 {
     return NULL;
+}
+
+NoLOG* criaLista(){ /* Cria lista do LOG */
+    return NULL;
+}
+
+/* Insere no inicio da lista LOG as operações e resultados do usuário */
+NoLOG* InsereInicioLOG (NoLOG* l, char* info){
+    NoLOG* novo = (NoLOG*) malloc(sizeof(NoLOG));
+    if(novo == NULL){ printf("Erro."); exit(1);}
+
+    novo->info = info;
+    novo->proximo = l;
+
+    return novo;
 }
 
 /* inserção no início: retorna a lista atualizada */
