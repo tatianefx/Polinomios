@@ -293,6 +293,50 @@ ResultadoDivisao* dividirPolinomios(No* polinomio1, No* polinomio2)
     return resultado;                                               /*retorna o resuldado*/
 }
 
+No *somaPolinomio(No *l1,No *l2)
+{
+
+    No *l3,*p1,*p2;
+
+    l3=criaLista();
+    p1=l1;
+    p2=l2;
+
+    while(p1!=NULL || p2!=NULL)
+    {
+        if(p1!=NULL)
+        {
+            l3=insereOrdenado(l3,p1->coef,p1->exp);
+            p1=p1->proximo;
+        }
+        if(p2!=NULL)
+        {
+            l3=insereOrdenado(l3,p2->coef,p2->exp);
+            p2=p2->proximo;
+        }
+    }
+    imprimeLista(l3);
+    l3=simplificaPolinomio(l3);
+    return l3;
+}
+
+No *compostoPolinomio(No *l1,No *l2){
+
+    No *q=l1;
+    No *p=l2;
+    No *l3=criaLista();
+
+    while(q!=NULL){
+        while(p!=NULL){
+            l3=insereOrdenado(l3,q->coef*(pow(p->coef,q->exp)),p->exp*q->exp);
+            p=p->proximo;
+        }
+        q=q->proximo;
+    }
+    l3=simplificaPolinomio(l3);
+    return l3;
+}
+
 FILE* escreveLOG(FILE *log, NoLOG* l){ /** Funcao recebe uma lista L e insere ela no arquivo **/
     log = fopen("log.txt", "r+");
 
