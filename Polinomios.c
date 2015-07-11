@@ -320,21 +320,35 @@ No *somaPolinomio(No *l1,No *l2)
     return l3;
 }
 
-No *compostoPolinomio(No *l1,No *l2){
+float compostoPolinomio(No *l1,No *l2,float v){
 
     No *q=l1;
     No *p=l2;
-    No *l3=criaLista();
 
-    while(q!=NULL){
-        while(p!=NULL){
-            l3=insereOrdenado(l3,q->coef*(pow(p->coef,q->exp)),p->exp*q->exp);
-            p=p->proximo;
-        }
-        q=q->proximo;
+    float res;
+
+    res=resultadoPolinomio(q,v);
+    res=resultadoPolinomio(p,res);
+
+    return res;
+}
+
+float n_compostoPolinomio(float v){
+
+    char stringPolinomio[MAX];
+
+    while(1){
+        No *l=criaLista();
+        printf("Entre com i-esimo polinomio.(Tecla S p/ sair),\n");
+        fflush(stdin);
+        gets(stringPolinomio);
+        if(stringPolinomio[0]=='S' || stringPolinomio[0]=='s')
+            break;
+        l=transformaString(stringPolinomio,l);
+        v=resultadoPolinomio(l,v);
+        destroiLista(l);
     }
-    l3=simplificaPolinomio(l3);
-    return l3;
+    return v;
 }
 
 FILE* escreveLOG(FILE *log, NoLOG* l){ /** Funcao recebe uma lista L e insere ela no arquivo **/
