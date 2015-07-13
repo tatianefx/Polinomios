@@ -24,14 +24,7 @@ struct noLOG{
     char* info;
     struct noLOG *proximo;
 };typedef struct noLOG NoLOG;
-/** Toda vez que fizer uma operacao nova, inserir o string do usuario ou resultado da operação 
-(ex: Resultado=3x^2+2x) na lista LOG, no fim, quando usario requsitar o arquivo log, tudo da 
-lista eh escrito e printado do arquivo. **/
 
-NoLOG* criaLista(); /**Inicializar no main **/
-NoLOG* InsereInicioLOG(NoLOG* l, char* info); /** Funcao nova **/
-FILE* escreveLOG(FILE *log, NoLOG *l); /** Funcao nova **/
-void imprimeLOG(FILE *log); /** Funcao nova **/
 
 No* criaLista();
 No* insereInicio (No* l, float coef, int exp);
@@ -43,10 +36,22 @@ void destroiLista(No* l);
 No* transformaString(char* str, No* lista);
 void apagarParteString(char* str, int tam);
 void copiaParteNumerica(char* str1, char* str2);
+No *somaPolinomio(No *l1,No *l2);
 No* subtrairPolinomios(No* polinomio1, No* polinomio2);
 No* multiplicaPolinomio(No *l1,No *l2);
-No* simplificaPolinomio(No *l);
-char* transformaPolinomio(No* polinomio);
-
 ResultadoDivisao* criaResultadoDivisao();
 ResultadoDivisao* dividirPolinomios(No* polinomio1, No* polinomio2);
+///DERIVADA
+No* simplificaPolinomio(No *l);
+float resultadoPolinomio(No *l,float v);
+float compostoPolinomio(No *l1,No *l2,float v);
+float n_compostoPolinomio(float v);
+
+/** Toda vez que fizer uma operacao nova, inserir o string do usuario ou resultado da operação
+(ex: Resultado=3x^2+2x) na lista LOG, no fim, quando usario requsitar o arquivo log, tudo da
+lista eh escrito e printado do arquivo. **/
+char *transformaPolinomio(No* polinomio);
+NoLOG* criaLista(); /**Inicializar no main **/
+NoLOG* InsereInicioLOG(NoLOG* l, char* info); /** Funcao nova **/
+FILE* escreveLOG(FILE *log, NoLOG *l); /** Funcao nova **/
+void imprimeLOG(FILE *log); /** Funcao nova **/
