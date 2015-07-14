@@ -2,20 +2,22 @@
 
 int main(void)
 {
-    char stringPolinomio[MAX], strGravarLog[2*MAX];
+    char stringPolinomio[MAX];
     FILE *arquivo, *log; /* log = registro das entradas do usuario */
-    int n, aux = 1, valor;
+    NoLOG *historico;
+    int n, aux = 1, valor, valor2;
     float res;
 
     No *polinomio1, *polinomio2, *polinomio3, *lista;
 
     lista = criaLista();
+    historico = criaListaLOG();
 
     polinomio1 = criaLista();
     polinomio2 = criaLista();
     polinomio3 = criaLista();
 
-    arquivo = fopen("arquivo.txt", "r+");
+    arquivo = fopen("arquivo.txt", "a+");
     if(arquivo == NULL)  /* Abre arquivo */
     {
             printf("Erro na abertura do arquivo");
@@ -35,10 +37,12 @@ int main(void)
     switch(n)  /*Verifica se por onde o usario quer enviar o polinomio*/
     {
     case 1:/* Le o(s) polinomio(s) de um arquivo */
-
-        while((fgets(stringPolinomio, sizeof(stringPolinomio), arquivo))!=NULL)  /*Le cada linha do arquivo e insere no stringPolinomio*/
+        while (!feof(arquivo))
         {
-                lista = transformaString(stringPolinomio);
+            fgets(stringPolinomio, MAX, arquivo);
+            printf("\n%s", stringPolinomio);
+            lista = transformaString(stringPolinomio);
+            imprimeLista(lista);
         }
 
         break;
@@ -50,14 +54,18 @@ int main(void)
             setbuf(stdin, NULL);
             scanf("%s", &stringPolinomio);
             setbuf(stdin, NULL);
-            lista = transformaString(stringPolinomio);
+
+            fputs(stringPolinomio, arquivo);
+
             printf("\nDeseja adicionar mais polinomios?");
             printf("\nDigite uma opcao:");
             printf("\n1- Continuar a adicionar.");
             printf("\n0- Sair.\n");
+
             scanf("%d", &aux);
         }
         while(aux != 0);
+
         break;
 
     default:
@@ -77,6 +85,8 @@ int main(void)
     printf("\n7- Calcular o polinomio dado um valor para x.");
     printf("\n8- Calcular um polinomio composto Q(P(x)) dado x.");
     printf("\n9- Calcular um polinomio composto por quantos polinomios desejar.");
+    printf("\n10- Integral definida.");
+    printf("\n11- Integral indefinida.");
     printf("\n0- Sair.\n\n");
 
     scanf("%d", &n);
@@ -313,6 +323,51 @@ int main(void)
             res = n_compostoPolinomio(valor);
 
             printf("Resultado = %f", valor);
+
+            break;
+
+        case 10: /* Integral definida */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            printf("\nEntre com o valor do intervalo superior:\n");
+            scanf("%f", &valor);
+
+            printf("\nEntre com o valor do intervalo inferior:\n");
+            scanf("%f", &valor2);
+
+            res = integralPolinomio(polinomio1, valor, valor2);
+
+            printf("Resultado = %f", res);
+
+            break;
+
+        case 11: /*Integral indefinida*/
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            polinomio2 = integral(polinomio1);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio2);
 
             break;
 
