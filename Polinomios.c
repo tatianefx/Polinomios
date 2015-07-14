@@ -452,3 +452,26 @@ No* integral(No* polinomio)
 
     return polinomioResultante;
 }
+
+No* calculaDerivada(No* polinomio){
+
+    No *polinomioResultante, *p1;
+
+    polinomioResultante = criaLista();
+    
+    p1 = polinomio;
+    
+    if(polinomio == NULL) return NULL;       /*testa se o polinomio nao eh nulo*/
+    
+    while(p1 != NULL){
+        if(p1->exp > 1){
+            polinomioResultante = insereOrdenado(polinomioResultante, (p1->coef * p1->exp), p1->exp - 1); /* Faz a derivada de para o elevado > 1 */
+        }
+        
+        if(p1->exp == 1)
+            polinomioResultante = insereOrdenado(polinomioResultante, (p1->coef), p1->exp - 1); /* Faz a derivada para o elevado = 1, o elevado = 0 (ex: 3), zera, entao ele nem insere na lista */
+        }
+    }
+    
+        return polinomioResultante;
+}
