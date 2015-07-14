@@ -471,6 +471,7 @@ No* calculaDerivada(No* polinomio){
         if(p1->exp == 1)
             polinomioResultante = insereOrdenado(polinomioResultante, (p1->coef), p1->exp - 1); /* Faz a derivada para o elevado = 1, o elevado = 0 (ex: 3), zera, entao ele nem insere na lista */
         }
+        p1 = p1->proximo;
     }
     
         return polinomioResultante;
