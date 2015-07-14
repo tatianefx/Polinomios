@@ -1,8 +1,10 @@
 #include "Polinomios.h"
 
 /*A função pega os coeficientes e expoentes de uma string(na forma de polinomio) e coloca em uma lista*/
-No* transformaString(char* str, No* lista)
+No* transformaString(char* str)
 {
+    No* polinomio = criaLista();
+
     char strCoef[MAX] = "\0";
     char strExp[MAX] = "\0";
     char sinal = '+';
@@ -44,7 +46,7 @@ No* transformaString(char* str, No* lista)
         if(sinal == '-') coef = coef*(-1);                  /*se o sinal for negativo
                                                             o coeficiente é multiplicado por -1*/
 
-        lista = insereOrdenado(lista, coef, expo);          /*insere nó na lista com coeficiente e expoente obtidos*/
+        polinomio = insereOrdenado(polinomio, coef, expo);          /*insere nó na lista com coeficiente e expoente obtidos*/
 
                                                             /*apaga todas as variaveis auxiliares*/
         coef = 0;
@@ -55,7 +57,7 @@ No* transformaString(char* str, No* lista)
         strcpy(strExp,"\0");
     }
 
-    return lista;                                           /*retorna a lista*/
+    return polinomio;                                           /*retorna a lista*/
 }
 
 /*A função apaga quantidade de caracteres apartir do começo*/
@@ -111,8 +113,9 @@ No *somaPolinomio(No *l1,No *l2)
             p2=p2->proximo;
         }
     }
-    imprimeLista(l3);
+
     l3=simplificaPolinomio(l3);
+
     return l3;
 }
 
@@ -186,7 +189,6 @@ No* subtrairPolinomios(No* polinomio1, No* polinomio2)
 /* A função abaixo multiplica dois polinômios*/
 No* multiplicaPolinomio(No *l1,No *l2)
 {
-
     No* l3,*p1,*p2;
     l3=criaLista();
 
@@ -275,8 +277,6 @@ ResultadoDivisao* dividirPolinomios(No* polinomio1, No* polinomio2)
     return resultado;                                               /*retorna o resuldado*/
 }
 
-/**DERIVADA.**/
-
 /* Nesta função compara-se nó a nó para verificar se é possível a simplificação
 então soma-se os coeficientes e elimina-se um nó */
 No* simplificaPolinomio(No *l)
@@ -298,6 +298,7 @@ No* simplificaPolinomio(No *l)
         atual=post;
         post=post->proximo;
     }
+
     return l;
 }
 
@@ -316,7 +317,7 @@ float resultadoPolinomio(No *l,float v)
         res+=p->coef*pow(v,p->exp);
         p=p->proximo;
     }
-    
+
     /*TODO
     ESCREVER RESULTADO NO ARQUIVO!*/
     return res;
@@ -337,6 +338,7 @@ float compostoPolinomio(No *l1,No *l2,float v){
 
     return res;
 }
+
 /* Na enésima composição o valor de x é recebido,
 depois polinômio é lido e calcula-se o valor para cada polinômio inserido
 sempre usando o ultimo resultado calculado*/
@@ -351,7 +353,7 @@ float n_compostoPolinomio(float v){
         gets(stringPolinomio);
         if(stringPolinomio[0]=='S' || stringPolinomio[0]=='s')
             break;
-        l=transformaString(stringPolinomio,l);
+        l=transformaString(stringPolinomio);
         v=resultadoPolinomio(l,v);
         destroiLista(l);
     }
@@ -428,21 +430,52 @@ No* calculaDerivada(No* polinomio){
     No *polinomioResultante, *p1;
 
     polinomioResultante = criaLista();
-    
+
     p1 = polinomio;
-    
+
     if(polinomio == NULL) return NULL;       /*testa se o polinomio nao eh nulo*/
-    
-    while(p1 != NULL){
-        if(p1->exp > 1){
-            polinomioResultante = insereOrdenado(polinomioResultante, (p1->coef * p1->exp), p1->exp - 1); /* Faz a derivada de para o elevado > 1 */
+
+    while(p1 != NULL)
+    {
+        if(p1->exp >= 1)    /* Faz a derivada de para o elevado >= 1, pois derivada de uma constante é zero */
+        {
+            polinomioResultante = insereOrdenado(polinomioResultante, (p1->coef * p1->exp), p1->exp - 1);
         }
-        
-        if(p1->exp == 1)
-            polinomioResultante = insereOrdenado(polinomioResultante, (p1->coef), p1->exp - 1); /* Faz a derivada para o elevado = 1, o elevado = 0 (ex: 3), zera, entao ele nem insere na lista */
-        }
+
         p1 = p1->proximo;
     }
-    
-        return polinomioResultante;
+
+    return polinomioResultante;
 }
+
+
+/** Funcao transforma uma lista de um polinomio em string **/
+/*
+char *transformaPolinomio(No* polinomio)
+{
+    No* p = polinomio;
+    char stringPolinomio[MAX], aux[10];
+
+    while(p != NULL)
+    {
+        if(p->coef == 1 && p->coef != 0) strcat(stringPolinomio, "x");
+        else
+        {
+            ftoa(p->coef, aux);
+            strcat(stringPolinomio, aux);
+            strcat(stringPolinomio, "x");
+        }
+
+        if(p->exp > 1)
+        {
+            strcat(stringPolinomio, "^");
+            itoa(p->exp, aux, 10);
+            strcat(stringPolinomio, aux);
+        }
+
+        p = p->proximo;
+    }
+
+    return stringPolinomio;
+}
+*/
