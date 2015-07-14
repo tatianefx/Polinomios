@@ -32,7 +32,7 @@ No* insereOrdenado (No* l, float coef, int exp);
 No* removeNo (No* l, No *endereco);
 void imprimeLista (No* l);
 void destroiLista(No* l);
-No* transformaString(char* str, No* lista);
+No* transformaString(char* str);
 void apagarParteString(char* str, int tam);
 void copiaParteNumerica(char* str1, char* str2);
 No *somaPolinomio(No *l1,No *l2);
@@ -46,7 +46,6 @@ No* simplificaPolinomio(No *l);
 int verificaString(char* str);
 float integralPolinomio(No* polinomio, int intervaloSuperior, int intervaloInferior);
 No* integral(No* polinomio);
-No* calculaDerivada(No* polinomio);
 
 float resultadoPolinomio(No *l,float v);
 float compostoPolinomio(No *l1,No *l2,float v);
@@ -58,5 +57,5 @@ lista eh escrito e printado do arquivo. **/
 char *transformaPolinomio(No* polinomio);
 NoLOG* criaListaLOG(); /**Inicializar no main **/
 NoLOG* InsereInicioLOG(NoLOG* l, char* info); /** Funcao nova **/
-FILE* escreveLOG(FILE *log, NoLOG *l); /** Funcao nova **/
+void escreveLOG(FILE *log, NoLOG *lista); /** Funcao nova **/
 void imprimeLOG(FILE *log); /** Funcao nova **/
