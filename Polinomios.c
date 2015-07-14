@@ -316,9 +316,7 @@ float resultadoPolinomio(No *l,float v)
         res+=p->coef*pow(v,p->exp);
         p=p->proximo;
     }
-
-
-
+    
     /*TODO
     ESCREVER RESULTADO NO ARQUIVO!*/
     return res;
