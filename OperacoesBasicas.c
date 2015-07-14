@@ -1,5 +1,6 @@
 #include "Polinomios.h"
 
+/*A função cria um resultado de divisão vazio*/
 ResultadoDivisao* criaResultadoDivisao()
 {
     ResultadoDivisao* novo = (ResultadoDivisao*) malloc(sizeof(ResultadoDivisao));
