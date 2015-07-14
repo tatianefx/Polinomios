@@ -306,7 +306,7 @@ No* simplificaPolinomio(No *l)
 }
 
 /* A função lê um valor real e calcula o resultado do polinômio */
-void resultadoPolinomio(No *l)
+float resultadoPolinomio(No *l)
 {
 
     float x,res=0;
@@ -322,10 +322,11 @@ void resultadoPolinomio(No *l)
         p=p->proximo;
     }
 
-    printf("Resultado: %f\n",res);
+    
 
     /*TODO
     ESCREVER RESULTADO NO ARQUIVO!*/
+    return res;
 }
 
 /* A composição calcula o valor inserido em um polinômio e
