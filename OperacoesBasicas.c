@@ -16,7 +16,7 @@ No* criaLista()
     return NULL;
 }
 
-NoLOG* criaLista(){ /* Cria lista do LOG */
+NoLOG* criaListaLOG(){ /* Cria lista do LOG */
     return NULL;
 }
 

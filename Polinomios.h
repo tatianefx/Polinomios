@@ -24,11 +24,11 @@ struct noLOG{
     char* info;
     struct noLOG *proximo;
 };typedef struct noLOG NoLOG;
-/** Toda vez que fizer uma operacao nova, inserir o string do usuario ou resultado da operação 
-(ex: Resultado=3x^2+2x) na lista LOG, no fim, quando usario requsitar o arquivo log, tudo da 
+/** Toda vez que fizer uma operacao nova, inserir o string do usuario ou resultado da operação
+(ex: Resultado=3x^2+2x) na lista LOG, no fim, quando usario requsitar o arquivo log, tudo da
 lista eh escrito e printado do arquivo. **/
 
-NoLOG* criaLista(); /**Inicializar no main **/
+NoLOG* criaListaLOG(); /**Inicializar no main **/
 NoLOG* InsereInicioLOG(NoLOG* l, char* info); /** Funcao nova **/
 FILE* escreveLOG(FILE *log, NoLOG *l); /** Funcao nova **/
 void imprimeLOG(FILE *log); /** Funcao nova **/
@@ -46,7 +46,11 @@ void copiaParteNumerica(char* str1, char* str2);
 No* subtrairPolinomios(No* polinomio1, No* polinomio2);
 No* multiplicaPolinomio(No *l1,No *l2);
 No* simplificaPolinomio(No *l);
+void resultadoPolinomio(No *l);
 char* transformaPolinomio(No* polinomio);
+int verificaString(char* str);
+float integralPolinomio(No* polinomio, int intervaloSuperior, int intervaloInferior);
+No* integral(No* polinomio);
 
 ResultadoDivisao* criaResultadoDivisao();
 ResultadoDivisao* dividirPolinomios(No* polinomio1, No* polinomio2);

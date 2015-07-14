@@ -98,10 +98,6 @@ No* subtrairPolinomios(No* polinomio1, No* polinomio2)
 
     if(polinomio1 == NULL && polinomio2 == NULL) return NULL;                   /*testa se os polinomios nao sao nulos*/
 
-    if(polinomio1 != NULL && polinomio2 == NULL) return polinomio1;              /*se polinomio2 é nulo, retorna polinomio 1*/
-
-    if(polinomio1 == NULL && polinomio2 != NULL) return polinomio2;              /*se polinomio1 é nulo, retorna polinomio 2*/
-
     while(p1 != NULL || p2 != NULL)                                              /*percorres as listas ate o fim das duas*/
     {
         if(p1 != NULL && p2 != NULL)                                             /*Se p1 e p2 forem diferentes de nulo*/
@@ -149,8 +145,8 @@ No* subtrairPolinomios(No* polinomio1, No* polinomio2)
             if(p2 != NULL)                                                      /*Se p2 não for o nulo insere na
                                                                                 lista resultante e aponta para o proximo*/
             {
-                polinomioResultante = insereOrdenado(polinomioResultante, -p1->coef, p1->exp);
-                p1 = p1->proximo;
+                polinomioResultante = insereOrdenado(polinomioResultante, -p2->coef, p2->exp);
+                p2 = p2->proximo;
             }
         }
     }
@@ -185,7 +181,7 @@ No* multiplicaPolinomio(No *l1,No *l2)
         p2=l2;
         p1=p1->proximo;
     }
-    
+
     l3=simplificaPolinomio(l3);
 
     /**Gravar no arquivo**/
@@ -315,7 +311,7 @@ void imprimeLOG(FILE *log){ /** Funcao que imprime o LOG **/
     if(log == NULL){ printf("Erro, nao foi possivel abrir o arquivo\n");}
 
     else{
-            while(fscanf(log,"%s", &s) != EOF){ /* Printa linha a linha */ 
+            while(fscanf(log,"%s", &s) != EOF){ /* Printa linha a linha */
                     printf("%s \n", s);
             }
         }
@@ -323,3 +319,59 @@ void imprimeLOG(FILE *log){ /** Funcao que imprime o LOG **/
     fclose(log);
 }
 
+int verificaString(char* str)
+{
+    int i, contemX = 0;
+    char numero;
+
+    for(i = 0; str[i] != '\0'; i++)
+    {
+        if(str[i] == 'x') contemX = 1;
+
+        if( !(str[i] >= '0' && str[i] <= '9') && str[i] != 'x' && str[i] != '^' && str[i] != '+' && str[i] != '-' && str[i] != '.')
+        {
+            return 0;
+        }
+
+        if(str[i] == 'x' && (str[i+1] != '^' && str[i+1] != '+' && str[i+1] != '-' && str[i+1] != '\0' ) )
+        {
+            return 0;
+        }
+
+        if(str[i] == '^' &&  !(str[i+1] >= '0' && str[i+1] <='9'))
+        {
+            return 0;
+        }
+    }
+
+    if(contemX) return 1;
+    else return 0;
+}
+
+float integralPolinomio(No* polinomio, int deValor, int ateValor)
+{
+    No *polinomioResultante, * p;
+
+    polinomioResultante = criaLista();
+
+}
+
+float integralPolinomio(No* polinomio, int intervaloSuperior, int intervaloInferior)
+{
+    No* polinomioResultante;
+    float resultado;
+
+    polinomioResultante = criaLista();
+
+    polinomioResultante = integral(polinomio);
+
+    resultado = ??????(polinomioResultante, intervaloSuperior) - ??????(polinomioResultante, intervaloInferior);
+
+    return resultado;
+}
+
+No* integral(No* polinomio)
+{
+
+
+}
