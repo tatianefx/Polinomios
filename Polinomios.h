@@ -46,6 +46,7 @@ No* simplificaPolinomio(No *l);
 int verificaString(char* str);
 float integralPolinomio(No* polinomio, int intervaloSuperior, int intervaloInferior);
 No* integral(No* polinomio);
+No* calculaDerivada(No* polinomio);
 
 float resultadoPolinomio(No *l,float v);
 float compostoPolinomio(No *l1,No *l2,float v);
