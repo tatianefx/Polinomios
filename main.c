@@ -2,39 +2,47 @@
 
 int main(void)
 {
-    char stringPolinomio[MAX];
+    char stringPolinomio[MAX], strGravarLog[2*MAX];
     FILE *arquivo, *log; /* log = registro das entradas do usuario */
-    int n, aux = 1;
-    No* lista = criaLista();
+    int n, aux = 1, valor;
+    float res;
 
+    No *polinomio1, *polinomio2, *polinomio3, *lista;
 
-    printf("\n Digite 1 para ler o polinomio de um arquivo e 2 para ler o polinomio do teclado: \n");
-    scanf("%d", &n);
-    if(n != 1 || n != 2)  /* Verifica se o usuario digitou um numero invalido */
+    lista = criaLista();
+
+    polinomio1 = criaLista();
+    polinomio2 = criaLista();
+    polinomio3 = criaLista();
+
+    arquivo = fopen("arquivo.txt", "r+");
+    if(arquivo == NULL)  /* Abre arquivo */
     {
-        while(n != 1 || n != 2)
-        {
-            printf("\nOpcao invalida, digite 1 para ler o polinomio de um arquivo e 2 para ler o polinomio do teclado: \n");
-            scanf("%d", &n);
-        }
+            printf("Erro na abertura do arquivo");
+            exit(1);
     }
+
+    do /* Verifica se o usuario digitou um numero invalido */
+    {
+        printf("\nDigite uma opcao:");
+        printf("\n1- Ler o polinomio de um arquivo.");
+        printf("\n2- Ler o polinomio do teclado:\n");
+        scanf("%d", &n);
+
+    }
+    while(n != 1 && n != 2);
 
     switch(n)  /*Verifica se por onde o usario quer enviar o polinomio*/
     {
     case 1:/* Le o(s) polinomio(s) de um arquivo */
-        if((arquivo = fopen("arquivo.txt", "r+")) == NULL)  /* Abre arquivo */
+
+        while((fgets(stringPolinomio, sizeof(stringPolinomio), arquivo))!=NULL)  /*Le cada linha do arquivo e insere no stringPolinomio*/
         {
-            printf("Erro na abertura do arquivo");
-            exit(1);
+                lista = transformaString(stringPolinomio);
         }
-        else
-        {
-            while((fgets(stringPolinomio, sizeof(stringPolinomio), arquivo))!=NULL)  /*Le cada linha do arquivo e insere no stringPolinomio*/
-            {
-                lista = transformaString(stringPolinomio, lista);
-            }
-        }
+
         break;
+
     case 2:/* Le o(s) polinomio(s) do teclado */
         do /* Continua lendo os polinomios ate o usuario optar por parar */
         {
@@ -42,63 +50,276 @@ int main(void)
             setbuf(stdin, NULL);
             scanf("%s", &stringPolinomio);
             setbuf(stdin, NULL);
-            lista = transformaString(stringPolinomio, lista);
-            printf("\nDeseja adicionar mais polinomios? Digite 0 para sair, 1 para continuar a adicionar.\n");
+            lista = transformaString(stringPolinomio);
+            printf("\nDeseja adicionar mais polinomios?");
+            printf("\nDigite uma opcao:");
+            printf("\n1- Continuar a adicionar.");
+            printf("\n0- Sair.\n");
             scanf("%d", &aux);
         }
         while(aux != 0);
         break;
+
+    default:
+        ;
     }
 
-    printf("\nDigite 1 para somar dois polinomios.");
-    printf("\nDigite 2 para subtrair dois polinomios.");
-    printf("\nDigite 3 para multiplicar dois polinomios.");
-    printf("\nDigite 4 para dividir dois polinomios.");
-    printf("\nDigite 5 para calcular a derivada de um polinomio.");
-    printf("\nDigite 6 para simplificar um polinomio.");
-    printf("\nDigite 7 para calcular o polinomio dado um valor para x.");
-    printf("\nDigite 8 para calcular um polinomio composto Q(P(x)) dado x.");
-    printf("\nDigite 9 para calcular um polinomio composto por quantos polinomios desejar.");
-    printf("\nDigite 0 para sair.\n");
+    do
+    {
+
+    printf("\n\nDigite uma opcao:");
+    printf("\n1- Somar dois polinomios.");
+    printf("\n2- Subtrair dois polinomios.");
+    printf("\n3- Multiplicar dois polinomios.");
+    printf("\n4- Dividir dois polinomios.");
+    printf("\n5- Calcular a derivada de um polinomio.");
+    printf("\n6- Simplificar um polinomio.");
+    printf("\n7- Calcular o polinomio dado um valor para x.");
+    printf("\n8- Calcular um polinomio composto Q(P(x)) dado x.");
+    printf("\n9- Calcular um polinomio composto por quantos polinomios desejar.");
+    printf("\n0- Sair.\n\n");
 
     scanf("%d", &n);
 
-    while(n != 0)
-    {
         switch(n) /* Switch-case das operacoes polinomiais */
         {
         case 1:/* Soma */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            do
+            {
+                printf("\nEntre com o outro polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio2 = transformaString(stringPolinomio);
+
+            polinomio3 = somaPolinomio(polinomio1, polinomio2);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio3);
+
             break;
+
         case 2:/* Subtracao */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            do
+            {
+                printf("\nEntre com o outro polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio2 = transformaString(stringPolinomio);
+
+            polinomio3 = subtrairPolinomios(polinomio1, polinomio2);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio3);
+
             break;
         case 3:/* Multiplicacao */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            do
+            {
+                printf("\nEntre com o outro polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio2 = transformaString(stringPolinomio);
+
+            polinomio3 = multiplicaPolinomio(polinomio1, polinomio2);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio3);
+
             break;
+
         case 4: /* Divisao */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            do
+            {
+                printf("\nEntre com o outro polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio2 = transformaString(stringPolinomio);
+
+            polinomio3 = dividirPolinomios(polinomio1, polinomio2);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio3);
+
             break;
+
         case 5:/* Derivada */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o outro polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            polinomio2 = calculaDerivada(polinomio1);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio2);
+
             break;
         case 6:/* Simplificar */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            polinomio2 = simplificaPolinomio(polinomio1);
+
+            printf("Resultado = ");
+            imprimeLista(polinomio2);
+
             break;
+
         case 7:/* Calcular P(x) a partir de x */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            printf("\nEntre com o valor:\n");
+            scanf("%f", &valor);
+
+            res = resultadoPolinomio(polinomio1, valor);
+
+            printf("Resultado = %f", valor);
+
             break;
+
         case 8:/* Q(P(x)) */
-            /*Chamada de funcao */
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio1 = transformaString(stringPolinomio);
+
+            do
+            {
+                printf("\nEntre com o polinomio:\n");
+                setbuf(stdin, NULL);
+                scanf("%s", &stringPolinomio);
+                setbuf(stdin, NULL);
+                if(!verificaString(stringPolinomio)) printf("\nPolinomio invalido, digite novamente:\n");
+            }
+            while(!verificaString(stringPolinomio));
+
+            polinomio2 = transformaString(stringPolinomio);
+
+            printf("\nEntre com o valor:\n");
+            scanf("%f", &valor);
+
+            res = compostoPolinomio(polinomio1, polinomio2, valor);
+
+            printf("Resultado = %f", valor);
+
             break;
+
         case 9: /* Polinomios compostos */
-            /*Chamada de funcao */
+
+            printf("\nEntre com o valor:\n");
+            scanf("%f", &valor);
+
+            res = n_compostoPolinomio(valor);
+
+            printf("Resultado = %f", valor);
+
             break;
+
+        default:;
         }
 
-        printf("\nProxima operacao: ");
-        scanf("%d", &n);
-    }
+    } while(n != 0);
 
     fclose(arquivo);
 
